@@ -63,7 +63,7 @@ public class MaterialMultiSelectListPreference extends MultiSelectListPreference
 
     private void init(Context context, AttributeSet attrs) {
         this.context = context;
-        PrefUtil.setLayoutResource(this, attrs);
+        PrefUtil.setLayoutResource(context, this, attrs);
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1)
             setWidgetLayoutResource(0);
     }
@@ -83,7 +83,6 @@ public class MaterialMultiSelectListPreference extends MultiSelectListPreference
         }
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
                 .title(getDialogTitle())
-                .content(getDialogMessage())
                 .icon(getDialogIcon())
                 .negativeText(getNegativeButtonText())
                 .positiveText(getPositiveButtonText())

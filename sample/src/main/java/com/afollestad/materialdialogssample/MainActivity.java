@@ -1,6 +1,7 @@
 package com.afollestad.materialdialogssample;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,12 +9,14 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.os.EnvironmentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
@@ -33,6 +36,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.afollestad.materialdialogs.color.CircleView;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
+import com.afollestad.materialdialogs.folderselector.FileChooserDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.afollestad.materialdialogs.internal.MDTintHelper;
 import com.afollestad.materialdialogs.internal.ThemeSingleton;
@@ -49,7 +53,7 @@ import butterknife.OnClick;
  * @author Aidan Follestad (afollestad)
  */
 public class MainActivity extends AppCompatActivity implements
-        FolderChooserDialog.FolderCallback, ColorChooserDialog.ColorCallback {
+        FolderChooserDialog.FolderCallback, FileChooserDialog.FileCallback, ColorChooserDialog.ColorCallback {
 
     // custom view dialog
     private EditText passwordInput;
@@ -578,6 +582,24 @@ public class MainActivity extends AppCompatActivity implements
                 .show();
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @OnClick(R.id.file_chooser)
+    public void showFileChooser() {
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_RC);
+            return;
+        }
+        new FileChooserDialog.Builder(this)
+                .show();
+    }
+
+    @Override
+    public void onFileSelection(@NonNull File file) {
+        showToast(file.getAbsolutePath());
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @OnClick(R.id.folder_chooser)
     public void showFolderChooser() {
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
@@ -587,12 +609,11 @@ public class MainActivity extends AppCompatActivity implements
         }
         new FolderChooserDialog.Builder(MainActivity.this)
                 .chooseButton(R.string.md_choose_label)
-                .initialPath("/sdcard/Download")
                 .show();
     }
 
     @Override
-    public void onFolderSelection(File folder) {
+    public void onFolderSelection(@NonNull File folder) {
         showToast(folder.getAbsolutePath());
     }
 

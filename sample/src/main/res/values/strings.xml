@@ -171,8 +171,8 @@
     <string name="clear_selection">Clear</string>
     <string name="color_palette">Color Palette</string>
     <string name="colors">Colors</string>
-    <string name="color_chooser_customColors">Color Chooser (Custom)</string>
-    <string name="color_chooser_customColors_noSub">Color Chooser (Custom, No Sub)</string>
+    <string name="color_chooser_customColors">Color Chooser (Custom Palette)</string>
+    <string name="color_chooser_customColors_noSub">Color Chooser (Custom Palette, No Sub)</string>
     <string name="action_buttons">Action Buttons</string>
     <string name="custom_views">Custom Views</string>
     <string name="color_chooser">Color Choosers</string>
@@ -185,5 +185,6 @@
     <string name="list_longItems">Basic List (Long Items)</string>
     <string name="singleChoice_longItems">Single Choice (Long Items)</string>
     <string name="multiChoice_longItems">Multi Choice (Long Items)</string>
+    <string name="file_chooser">File Chooser</string>
 
 </resources>

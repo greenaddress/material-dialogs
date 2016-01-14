@@ -55,7 +55,7 @@ public class MaterialListPreference extends ListPreference {
 
     private void init(Context context, AttributeSet attrs) {
         this.context = context;
-        PrefUtil.setLayoutResource(this, attrs);
+        PrefUtil.setLayoutResource(context, this, attrs);
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1)
             setWidgetLayoutResource(0);
     }
@@ -87,7 +87,6 @@ public class MaterialListPreference extends ListPreference {
         int preselect = findIndexOfValue(getValue());
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
                 .title(getDialogTitle())
-                .content(getDialogMessage())
                 .icon(getDialogIcon())
                 .dismissListener(this)
                 .onAny(new MaterialDialog.SingleButtonCallback() {
@@ -102,22 +101,6 @@ public class MaterialListPreference extends ListPreference {
                                 break;
                             case NEGATIVE:
                                 MaterialListPreference.this.onClick(dialog, DialogInterface.BUTTON_NEGATIVE);
-                                break;
-                        }
-                    }
-                })
-                .onAny(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        switch (which) {
-                            case POSITIVE:
-                                MaterialListPreference.this.onClick(dialog, DialogInterface.BUTTON_POSITIVE);
-                                break;
-                            case NEGATIVE:
-                                MaterialListPreference.this.onClick(dialog, DialogInterface.BUTTON_NEGATIVE);
-                                break;
-                            case NEUTRAL:
-                                MaterialListPreference.this.onClick(dialog, DialogInterface.BUTTON_NEUTRAL);
                                 break;
                         }
                     }
@@ -155,6 +138,7 @@ public class MaterialListPreference extends ListPreference {
         mDialog = builder.build();
         if (state != null)
             mDialog.onRestoreInstanceState(state);
+        onClick(mDialog, DialogInterface.BUTTON_NEGATIVE);
         mDialog.show();
     }
 
